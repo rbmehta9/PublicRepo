@@ -1,0 +1,111 @@
+{
+  "consumer": {
+    "name": "ItemsApiConsumer"
+  },
+  "interactions": [
+    {
+      "description": "A GET request to retrieve all items",
+      "providerStates": [
+        {
+          "name": "items exist"
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "path": "/api/items"
+      },
+      "response": {
+        "body": [
+          {
+            "Id": 1,
+            "Name": "Sample Item 1"
+          }
+        ],
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "matchingRules": {
+          "body": {
+            "$[0].Id": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ]
+            },
+            "$[0].Name": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ]
+            }
+          }
+        },
+        "status": 200
+      }
+    },
+    {
+      "description": "A POST request to create a new item",
+      "providerStates": [
+        {
+          "name": "the API is available"
+        }
+      ],
+      "request": {
+        "body": {
+          "name": "New Item"
+        },
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "method": "POST",
+        "path": "/api/items"
+      },
+      "response": {
+        "body": {
+          "Id": 3,
+          "Name": "New Item"
+        },
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "matchingRules": {
+          "body": {
+            "$.Id": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ]
+            },
+            "$.Name": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ]
+            }
+          }
+        },
+        "status": 201
+      }
+    }
+  ],
+  "metadata": {
+    "pactRust": {
+      "ffi": "0.4.27",
+      "models": "1.2.8"
+    },
+    "pactSpecification": {
+      "version": "3.0.0"
+    }
+  },
+  "provider": {
+    "name": "ItemsApiProvider"
+  }
+}
