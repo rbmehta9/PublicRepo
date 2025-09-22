@@ -8,6 +8,9 @@ using PactNet.Infrastructure.Outputters;
 using PactNet.Verifier;
 using Xunit;
 using Xunit.Abstractions;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Builder; // Add this using directive
+using Microsoft.AspNetCore.Routing; // Add this using directive
 
 namespace ProviderTests
 {
@@ -25,19 +28,23 @@ namespace ProviderTests
 
         private async Task StartServer()
         {
-            // Use your Program.CreateHostBuilder directly
             _host = Program.CreateHostBuilder(new string[0])
                 .ConfigureWebHost(webBuilder =>
                 {
                     webBuilder.UseKestrel();
                     webBuilder.UseUrls("http://127.0.0.1:0"); // Dynamic port
                     webBuilder.UseEnvironment("Test");
+                    
+                    // Add startup filter to inject provider-states endpoint
+                    webBuilder.ConfigureServices(services =>
+                    {
+                        services.AddTransient<IStartupFilter, ProviderStatesStartupFilter>();
+                    });
                 })
                 .Build();
 
             await _host.StartAsync();
 
-            // Get the actual server address
             var server = _host.Services.GetRequiredService<IServer>();
             var addressFeature = server.Features.Get<IServerAddressesFeature>();
             _serverUrl = addressFeature?.Addresses?.FirstOrDefault();
@@ -97,5 +104,58 @@ namespace ProviderTests
             _host?.StopAsync().Wait();
             _host?.Dispose();
         }
+    }
+
+    public class ProviderStatesStartupFilter : IStartupFilter
+    {
+        public Action<IApplicationBuilder> Configure(Action<IApplicationBuilder> next)
+        {
+            return app =>
+            {
+                // Add provider-states endpoint before the main pipeline
+                app.Map("/provider-states", providerApp =>
+                {
+                    providerApp.Run(async context =>
+                    {
+                        if (context.Request.Method == "POST")
+                        {
+                            var body = await context.Request.ReadFromJsonAsync<ProviderState>();
+
+                            switch (body?.State)
+                            {
+                                case "items exist":
+                                    context.Response.StatusCode = 200;
+                                    context.Response.ContentType = "application/json";
+                                    await context.Response.WriteAsync("{\"message\":\"Provider state 'items exist' set up successfully\"}");
+                                    break;
+                                case "the API is available":
+                                    context.Response.StatusCode = 200;
+                                    context.Response.ContentType = "application/json";
+                                    await context.Response.WriteAsync("{\"message\":\"Provider state 'the API is available' set up successfully\"}");
+                                    break;
+                                default:
+                                    context.Response.StatusCode = 400;
+                                    context.Response.ContentType = "application/json";
+                                    await context.Response.WriteAsync($"{{\"error\":\"Unknown provider state: {body?.State}\"}}");
+                                    break;
+                            }
+                        }
+                        else
+                        {
+                            context.Response.StatusCode = 405; // Method not allowed
+                            context.Response.ContentType = "application/json";
+                            await context.Response.WriteAsync("{\"error\":\"Method not allowed. Use POST.\"}");
+                        }
+                    });
+                });
+                
+                next(app); // Execute Program.cs configuration
+            };
+        }
+    }
+
+    public class ProviderState
+    {
+        public string? State { get; set; }
     }
 }
