@@ -79,7 +79,7 @@ namespace ItemsApi.Provider.Tests
 
             var pactPath = Path.Combine(
                 Directory.GetCurrentDirectory(),
-                "..", "..", "..", "..", "TestProject", "pacts",
+                "..", "..", "..", "..", "ConsumerTests", "pacts",
                 "ItemsApiConsumer-ItemsApiProvider.json");
 
             if (!File.Exists(pactPath))
