@@ -1,9 +1,9 @@
-using ContractTests.Models;
+using ItemsApi.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace ContractTests.Controllers
+namespace ItemsApi.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]

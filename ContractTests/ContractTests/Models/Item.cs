@@ -1,4 +1,4 @@
-namespace ContractTests.Models
+namespace ItemsApi.Models
 {
     public class Item
     {

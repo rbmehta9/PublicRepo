@@ -3,11 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.13.35828.75
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ContractTests", "ContractTests.csproj", "{429B2126-BEF5-8677-521F-3B7E7F28EF0A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ItemsApi", "ItemsApi.csproj", "{429B2126-BEF5-8677-521F-3B7E7F28EF0A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestProject", "..\TestProject\TestProject.csproj", "{D579B727-5830-4926-B45A-1C6BAED8814A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ItemsApi.Consumer.Tests", "..\TestProject\ItemsApi.Consumer.Tests.csproj", "{D579B727-5830-4926-B45A-1C6BAED8814A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProviderTests", "..\ProviderTests\ProviderTests.csproj", "{6E29B7ED-0289-45D0-A349-D647BFD06339}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ItemsApi.Provider.Tests", "..\ProviderTests\ItemsApi.Provider.Tests.csproj", "{6E29B7ED-0289-45D0-A349-D647BFD06339}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

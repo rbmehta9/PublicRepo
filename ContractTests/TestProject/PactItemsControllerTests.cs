@@ -6,9 +6,9 @@ using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
 using System.IO;
-using ContractTests.Models;
+using ItemsApi.Models;
 
-namespace TestProject
+namespace ItemsApi.Consumer.Tests
 {
     public class PactItemsControllerTests : IDisposable
     {

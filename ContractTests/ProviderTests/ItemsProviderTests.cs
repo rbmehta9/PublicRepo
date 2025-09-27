@@ -1,4 +1,4 @@
-using ContractTests;
+using ItemsApi;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Hosting.Server;
 using Microsoft.AspNetCore.Hosting.Server.Features;
@@ -12,7 +12,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Builder; // Add this using directive
 using Microsoft.AspNetCore.Routing; // Add this using directive
 
-namespace ProviderTests
+namespace ItemsApi.Provider.Tests
 {
     public class ItemsProviderTests : IDisposable
     {

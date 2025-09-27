@@ -1,4 +1,4 @@
-namespace ContractTests
+namespace ItemsApi
 {
     public class Program
     {
