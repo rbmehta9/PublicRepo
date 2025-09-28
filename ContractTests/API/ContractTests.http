@@ -1,6 +1,6 @@
-@ContractTests_HostAddress = http://localhost:5188
+@ContractTests_HostAddress = https://localhost:44308
 
-GET {{ContractTests_HostAddress}}/weatherforecast/
+GET {{ContractTests_HostAddress}}/api/items
 Accept: application/json
 
 ###

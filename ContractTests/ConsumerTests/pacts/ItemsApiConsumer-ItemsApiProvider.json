@@ -26,7 +26,16 @@
         },
         "matchingRules": {
           "body": {
-            "$[0].Id": {
+            "$": {
+              "combine": "AND",
+              "matchers": [
+                {
+                  "match": "type",
+                  "min": 1
+                }
+              ]
+            },
+            "$[*].Id": {
               "combine": "AND",
               "matchers": [
                 {
@@ -34,7 +43,7 @@
                 }
               ]
             },
-            "$[0].Name": {
+            "$[*].Name": {
               "combine": "AND",
               "matchers": [
                 {

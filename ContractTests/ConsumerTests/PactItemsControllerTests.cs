@@ -16,11 +16,6 @@ namespace ItemsApi.Consumer.Tests
 
         public PactItemsControllerTests()
         {
-            //var config = new PactConfig
-            //{
-            //    PactDir = Path.Combine(Directory.GetCurrentDirectory(), "pacts") // Save pacts to a 'pacts' folder
-            //};
-
             var projectDir = Path.GetFullPath(Path.Combine(Directory.GetCurrentDirectory(), "..", "..", ".."));
             var pactsDir = Path.Combine(projectDir, "pacts");
 
@@ -36,21 +31,20 @@ namespace ItemsApi.Consumer.Tests
         public async Task GetItems_ContractTest()
         {
             var pactBuilder = _pact.WithHttpInteractions();
-            
+
             pactBuilder
                 .UponReceiving("A GET request to retrieve all items")
                 .Given("items exist")
                 .WithRequest(HttpMethod.Get, "/api/items")
                 .WillRespond()
                 .WithStatus(200)
-                .WithJsonBody(new[]
-                {
+                .WithJsonBody(Match.MinType(
                     new
                     {
-                        Id = Match.Type(1),
-                        Name = Match.Type("Sample Item 1")
-                    }
-                });
+                        Id = Match.Type(1), //This means any integer value
+                        Name = Match.Type("Sample Item 1") //This means any string value
+                    },
+                 1));
 
             await pactBuilder.VerifyAsync(async ctx =>
             {
@@ -63,7 +57,6 @@ namespace ItemsApi.Consumer.Tests
                 var items = JsonSerializer.Deserialize<Item[]>(content);
 
                 Assert.NotNull(items);
-                Assert.NotEmpty(items);
                 Assert.All(items, item =>
                 {
                     Assert.True(item.Id > 0);

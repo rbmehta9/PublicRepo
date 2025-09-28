@@ -12,7 +12,8 @@ namespace Api.Controllers
         // In-memory data store with sample data
         private static readonly List<Item> Items = new()
         {
-            new Item { Id = 1, Name = "Sample Item 1" }
+            new Item { Id = 1, Name = "Sample Item 1" },
+            new Item { Id = 5, Name = "Sample Item 5" }
         };
 
         // GET: api/items
