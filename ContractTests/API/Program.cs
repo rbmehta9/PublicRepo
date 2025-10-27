@@ -27,13 +27,19 @@ namespace ItemsApi
                     {
                         var env = context.HostingEnvironment;
                         
-                        if (env.IsDevelopment())
+                        // Enable Swagger for Development and non-Production environments
+                        if (env.IsDevelopment() || !env.IsProduction())
                         {
                             app.UseSwagger();
                             app.UseSwaggerUI();
                         }
 
-                        app.UseHttpsRedirection();
+                        // Only use HTTPS redirection in production
+                        if (env.IsProduction())
+                        {
+                            app.UseHttpsRedirection();
+                        }
+                        
                         app.UseRouting();
                         app.UseEndpoints(endpoints =>
                         {

@@ -36,3 +36,14 @@ Thumbs.db
 *.pdb
 *.cache
 *.tmp
+
+# Test Results
+TestResults/
+**/TestResults/
+*.trx
+*.coverage
+*.coveragexml
+
+# Contract Testing
+**/pacts/
+ConsumerTests/pacts/
