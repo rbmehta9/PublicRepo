@@ -9,8 +9,8 @@ using PactNet.Verifier;
 using Xunit;
 using Xunit.Abstractions;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Builder; // Add this using directive
-using Microsoft.AspNetCore.Routing; // Add this using directive
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Routing;
 
 namespace ItemsApi.Provider.Tests
 {
@@ -124,14 +124,18 @@ namespace ItemsApi.Provider.Tests
                             switch (body?.State)
                             {
                                 case "items exist":
-                                    context.Response.StatusCode = 200;
-                                    context.Response.ContentType = "application/json";
-                                    await context.Response.WriteAsync("{\"message\":\"Provider state 'items exist' set up successfully\"}");
-                                    break;
                                 case "the API is available":
+                                case "item with ID 1 exists":
+                                case "item with ID 6 exists":
                                     context.Response.StatusCode = 200;
                                     context.Response.ContentType = "application/json";
-                                    await context.Response.WriteAsync("{\"message\":\"Provider state 'the API is available' set up successfully\"}");
+                                    await context.Response.WriteAsync($"{{\"message\":\"Provider state '{body.State}' set up successfully\"}}");
+                                    break;
+                                case "no item with ID 999 exists":
+                                case "item with name 'Sample Item 1' already exists":
+                                    context.Response.StatusCode = 200;
+                                    context.Response.ContentType = "application/json";
+                                    await context.Response.WriteAsync($"{{\"message\":\"Provider state '{body.State}' set up successfully\"}}");
                                     break;
                                 default:
                                     context.Response.StatusCode = 400;
