@@ -27,14 +27,35 @@ Provider:
 
 Outcome: consumers own the contract they need; providers prove they fulfil it — enabling independent, safe evolution.
 
-## Running Tests
+## Running API Container
 
 ```text
-# Consumer tests (generate pact)
-cd TestProject
-dotnet test
-
-# Provider verification (verify against generated pact)
-cd ProviderTests
-dotnet test
+# From: ContractTests/API/
+docker build -t itemsapi .
+docker run -d -p 5000:8080 itemsapi
 ```
+
+## Running Consumer Tests
+```text
+# From: ContractTests/
+docker build -f ConsumerTests/Dockerfile -t consumer-tests .
+docker run --rm consumer-tests
+```
+## Running Provider Tests
+```text
+# From: ContractTests/
+docker build -f ProviderTests/Dockerfile -t provider-tests .
+docker run --rm provider-tests
+```
+
+## Running via docker-compose
+```text
+# From: ContractTests/
+docker-compose --profile dev up          # API only
+docker-compose --profile test up         # Tests only  
+docker-compose --profile dev --profile test up  # Everything
+```
+## Files
+- **Pacts folder: ConsumerTests/pacts/**
+- **JSON file: ConsumerTests/pacts/ItemsApiConsumer-ItemsApiProvider.json**
+- **Test results: TestResults/**
